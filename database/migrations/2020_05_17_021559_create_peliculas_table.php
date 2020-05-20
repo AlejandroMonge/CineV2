@@ -17,7 +17,6 @@ class CreatePeliculasTable extends Migration
             $table->id();
             $table->text('imagen_url');
             $table->string('nombre_pelicula');
-            //$table->string('informacion_basica');
             $table->text('sinopsis');
             $table->float('puntaje')->default(0);
             $table->integer('anio');

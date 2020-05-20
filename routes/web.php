@@ -28,6 +28,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('favorita', 'FavoritaController')->middleware("auth");
+
 Route::resource('pelicula', 'PeliculaController');
 
 Route::resource('comentario', 'ComentarioController');

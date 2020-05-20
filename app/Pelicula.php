@@ -12,4 +12,10 @@ class Pelicula extends Model
     {
         return $this->hasMany(Comentario::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'favoritas');
+    }
+
 }

@@ -39,11 +39,18 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <!-- Nav Item -->
+      <!-- Todas las peliculas Item -->
       <li class="nav-item">
         <a class="nav-link" href="{{ route('pelicula.index') }}">
           <i class="fas fa-play"></i>
           <span>Peliculas</span></a>
+      </li>
+
+      <!-- Peliculas favoritas Item -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('favorita.index') }}">
+          <i class="fas fa-heart"></i>
+          <span>Favoritas</span></a>
       </li>
 
       <!-- Divider -->

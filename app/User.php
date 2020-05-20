@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comentario::class);
     }
+
+    public function favoritas()
+    {
+        return $this->belongsToMany(Pelicula::class,'favoritas');
+    }
 }

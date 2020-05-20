@@ -35,16 +35,6 @@ class PeliculaController extends Controller
         return view('peliculas.peliculaIndex', compact('peliculas', 'admin'));
     }
 
-    public function favorite()
-    {
-
-    }
-
-    public function deleteFavorite()
-    {
-
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -65,13 +55,16 @@ class PeliculaController extends Controller
     public function store(Request $request)
     {
         $pelicula = new Pelicula();
-        $informacion_basica = $request->anio . ' - ' . $request->genero . ' - ' . $request->duracion;
+        //$informacion_basica = $request->anio . ' - ' . $request->genero . ' - ' . $request->duracion;
 
         $pelicula->nombre_pelicula = $request->nombre_pelicula;
         $pelicula->imagen_url = $request->imagen_url;
         $pelicula->sinopsis = $request->sinopsis;
         $pelicula->url_trailer = $request->url_trailer;
-        $pelicula->informacion_basica = $informacion_basica;
+        $pelicula->anio = $request->anio;
+        $pelicula->genero = $request->genero;
+        $pelicula->duracion = $request->duracion;
+        //$pelicula->informacion_basica = $informacion_basica;
 
         $pelicula->save();
         return redirect()->route('pelicula.index')->with(['Mensaje' => 'Pelicula añadida correctamente']);
