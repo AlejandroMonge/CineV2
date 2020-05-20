@@ -6,6 +6,7 @@ use App\Comentario;
 use App\Pelicula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PeliculaController extends Controller
 {
@@ -24,7 +25,24 @@ class PeliculaController extends Controller
     {
         //
         $peliculas = Pelicula::all();
-        return view('peliculas.peliculaIndex', compact('peliculas'));
+        $userID = Auth::id();
+        $admin = false;
+
+        if($userID == 1){
+            $admin = true;
+        }
+
+        return view('peliculas.peliculaIndex', compact('peliculas', 'admin'));
+    }
+
+    public function favorite()
+    {
+
+    }
+
+    public function deleteFavorite()
+    {
+
     }
 
     /**
@@ -35,6 +53,7 @@ class PeliculaController extends Controller
     public function create()
     {
         //
+        return view('peliculas.peliculaForm');
     }
 
     /**
@@ -45,9 +64,17 @@ class PeliculaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pelicula = new Pelicula();
+        $informacion_basica = $request->anio . ' - ' . $request->genero . ' - ' . $request->duracion;
 
-        //dd($request);
+        $pelicula->nombre_pelicula = $request->nombre_pelicula;
+        $pelicula->imagen_url = $request->imagen_url;
+        $pelicula->sinopsis = $request->sinopsis;
+        $pelicula->url_trailer = $request->url_trailer;
+        $pelicula->informacion_basica = $informacion_basica;
+
+        $pelicula->save();
+        return redirect()->route('pelicula.index')->with(['Mensaje' => 'Pelicula añadida correctamente']);
 
     }
 
@@ -63,8 +90,14 @@ class PeliculaController extends Controller
 
         /* $comentarios = Comentario::where('pelicula_id','=', $pelicula->id); */
         $comentarios = DB::table('comentarios')->where('pelicula_id', '=', $pelicula->id)->get();
+        $userID = Auth::id();
+        $admin = false;
 
-        return view('peliculas.peliculaShow', compact('pelicula', 'comentarios'));
+        if($userID == 1){
+            $admin = true;
+        }
+
+        return view('peliculas.peliculaShow', compact('pelicula', 'comentarios', 'admin'));
     }
 
     /**
@@ -76,6 +109,7 @@ class PeliculaController extends Controller
     public function edit(Pelicula $pelicula)
     {
         //
+        return view('peliculas.peliculaForm', compact('pelicula'));
     }
 
     /**
@@ -99,5 +133,7 @@ class PeliculaController extends Controller
     public function destroy(Pelicula $pelicula)
     {
         //
+        $pelicula->delete();
+        return redirect()->route('pelicula.index')->with(['Mensaje' => 'Pelicula eliminada correctamente']);
     }
 }

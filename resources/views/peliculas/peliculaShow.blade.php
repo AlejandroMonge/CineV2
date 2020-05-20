@@ -16,26 +16,58 @@
 .comentarios {
     background-color: #ABBCC3;
 }
+.fa-pen-square{
+    color: rgb(28, 143, 189);
+}
+.fa-minus-circle{
+    color: red;
+}
+.eliminar{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
 
 </style>
 
 <div class="container">
-    {{-- {!! Form::open([route('pelicula.store')]) !!} --}}
+    @if(session()->has('Mensaje'))
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true" style="font-size:20px">×</span>
+            </button>
+            {{ session()->get('Mensaje') }}
+        </div>
+    @endif
+    <div class="row">
+        @if ($admin)
+        <form action="{{route('pelicula.destroy', $pelicula->id)}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="eliminar"><i class="fas fa-minus-circle fa-2x"></i></button>
+        </form>
+        <a href="{{route('pelicula.edit', $pelicula->id)}}"><i class="fas fa-pen-square fa-2x"></i></a>
+    @else
+    @endif
+    </div>
+
     <div class="row">
         <div class="col-sm-5">
-
             <img src="{{$pelicula->imagen_url}}" alt="" width="392" height="580">
         </div>
         <div class="col-sm-6">
             <div class="card">
                 <h1>{{ $pelicula->nombre_pelicula}}</h1>
-                <p>{{$pelicula->informacion_basica}}</p>
+                <p>{{$pelicula->anio . ' - ' . $pelicula->genero . ' - ' . $pelicula->duracion}}</p>
                 <p class="my-4">
                     {{$pelicula->sinopsis}}
                 </p>
                 <div class="row">
                     <div class="col-sm-5">
-                        <h3 class="rating-num"> {{$pelicula->puntaje}} <i style='font-size:24px' class="fas fa-star"></i></h3>
+                        <h3 class="rating-num"> {{round($pelicula->puntaje, 1)}} <i style='font-size:24px' class="fas fa-star"></i></h3>
                     </div>
                     <div class="col-sm-5">
                         <i style='font-size:24px' class='fas fa-child'></i> {{$pelicula->cantidad_votos}} total

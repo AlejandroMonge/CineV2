@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Comentario;
-use App\Pelicula;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Type\Integer;
+use Illuminate\Support\Facades\DB;
 
 class ComentarioController extends Controller
 {
@@ -41,22 +40,36 @@ class ComentarioController extends Controller
 
         $request->validate([
             'comentario' => 'required|max:4294967294',
-            'puntaje' => 'required|max:5|min:0',
+            'puntaje' => 'required|max:5|min:1',
             'user_id' => 'required',
             'pelicula_id' => 'required'
-
-
         ]);
 
+
         $comentario = new Comentario();
+
+        $pelicula = DB::table('peliculas')->where('id', $request->pelicula_id)->first();
+
+       if($pelicula->cantidad_votos == 0){
+           $nuevo_puntaje = $request->puntaje;
+       }
+       else{
+           $nuevo_puntaje = (($pelicula->puntaje * $pelicula->cantidad_votos) + $request->puntaje)/($pelicula->cantidad_votos + 1);
+       }
+
+
+        DB::table('peliculas')->where('id', $request->pelicula_id)->update(array('puntaje' => $nuevo_puntaje, 'cantidad_votos' => $pelicula->cantidad_votos + 1));
 
         $comentario->comentario = $request->comentario;
         $comentario->puntaje = $request->puntaje;
         $comentario->nombre_user = $request->nombre_user;
         $comentario->user_id = $request->user_id;
         $comentario->pelicula_id = $request->pelicula_id;
+
+
+
         $comentario->save();
-        return redirect()->route('pelicula.show', $request->pelicula_id);
+        return redirect()->route('pelicula.show', $request->pelicula_id)->with(['Mensaje' => 'Comentario agregado correctamente']);
 
     }
 

@@ -17,10 +17,13 @@ class CreatePeliculasTable extends Migration
             $table->id();
             $table->text('imagen_url');
             $table->string('nombre_pelicula');
-            $table->string('informacion_basica');
+            //$table->string('informacion_basica');
             $table->text('sinopsis');
-            $table->float('puntaje');
-            $table->integer('cantidad_votos');
+            $table->float('puntaje')->default(0);
+            $table->integer('anio');
+            $table->string('genero');
+            $table->string('duracion');
+            $table->integer('cantidad_votos')->default(0);
             $table->text('url_trailer');
         });
     }
