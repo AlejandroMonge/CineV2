@@ -53,6 +53,13 @@
           <span>Favoritas</span></a>
       </li>
 
+      <!-- Peliculas proximas a ver Item -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('proxima.index') }}">
+          <i class="fas fa-clock"></i>
+          <span>Proximas a ver</span></a>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider">
 

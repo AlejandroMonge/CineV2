@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Favorita;
-use App\Pelicula;
+use App\Proxima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Type\Integer;
 
-class FavoritaController extends Controller
+class ProximaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +17,10 @@ class FavoritaController extends Controller
     {
         //
 
-        $favoritas = Auth::user()->favoritas;
+        $proximas = Auth::user()->proximas;
 
-        return view('peliculas.peliculaFavoritas', compact('favoritas'));
+        return view('peliculas.peliculaProximas', compact('proximas'));
+
     }
 
     /**
@@ -44,21 +42,21 @@ class FavoritaController extends Controller
     public function store(Request $request)
     {
         //
-        $favorita = new Favorita();
-        $favorita->user_id = Auth::id();
-        $favorita->pelicula_id = $request->pelicula_id;
-        $favorita->save();
+        $proxima = new Proxima();
+        $proxima->user_id = Auth::id();
+        $proxima->pelicula_id = $request->pelicula_id;
+        $proxima->save();
 
-        return redirect()->route('pelicula.index')->with(['Mensaje' => 'Agregada a favoritos']);
+        return redirect()->route('pelicula.index')->with(['Mensaje' => 'Agregada a Proximas a ver']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Favorita  $favorita
+     * @param  \App\Proxima  $proxima
      * @return \Illuminate\Http\Response
      */
-    public function show(Favorita $favorita)
+    public function show(Proxima $proxima)
     {
         //
     }
@@ -66,10 +64,10 @@ class FavoritaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Favorita  $favorita
+     * @param  \App\Proxima  $proxima
      * @return \Illuminate\Http\Response
      */
-    public function edit(Favorita $favorita)
+    public function edit(Proxima $proxima)
     {
         //
     }
@@ -78,10 +76,10 @@ class FavoritaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Favorita  $favorita
+     * @param  \App\Proxima  $proxima
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Favorita $favorita)
+    public function update(Request $request, Proxima $proxima)
     {
         //
     }
@@ -89,13 +87,13 @@ class FavoritaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Favorita  $favorita
+     * @param  \App\Proxima  $proxima
      * @return \Illuminate\Http\Response
      */
     public function destroy($pelicula_id)
     {
         //
-        Favorita::where(['user_id' => Auth::id(), 'pelicula_id' => $pelicula_id])->delete();
+        Proxima::where(['user_id' => Auth::id(), 'pelicula_id' => $pelicula_id])->delete();
         return redirect()->route('favorita.index')->with(['Mensaje' => 'Pelicula eliminada de favoritos']);
     }
 }

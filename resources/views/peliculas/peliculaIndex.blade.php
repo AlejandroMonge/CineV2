@@ -21,6 +21,15 @@
     #agregar{
         color:  #858796;
     }
+    #llenarFav{
+        color: red;
+    }
+    #llenarNext{
+        color: rgb(60, 212, 0);
+    }
+    #llenarComment{
+        color:rgb(0, 170, 248);
+    }
 </style>
 
 @section('content')
@@ -57,13 +66,28 @@
                                  <a href="{{ route('pelicula.show', $pelicula->id)}}"> {{ $pelicula->nombre_pelicula }}</a>
                                  <br>
                                  <div class="acciones">
-                                    {!! Form::open(['route' => 'favorita.store', 'id' => 'form'.$pelicula->id]) !!}
-                                        <input type="number" name="pelicula_id" value="{{$pelicula->id}}" hidden>
-                                    {!! Form::close() !!}
-                                    <a href="#" onclick="document.getElementById('{{'form'.$pelicula->id}}').submit();"><i class="fas fa-heart fa-3x pt-4"></i></a>
-                                    <a href=""><i class="fas fa-clock fa-3x pl-4"></i></a>
-                                 </div>
+                                    @if (App\Favorita::where(['user_id' => Auth::id(), 'pelicula_id' => $pelicula->id])->first() == null)
+                                            {!! Form::open(['route' => 'favorita.store', 'id' => 'fav'.$pelicula->id, 'hidden']) !!}
+                                                <input type="number" name="pelicula_id" value="{{$pelicula->id}}" hidden>
+                                            {!! Form::close() !!}
+                                            <a href="#" onclick="document.getElementById('{{'fav'.$pelicula->id}}').submit();"><i class="fas fa-heart fa-3x pt-4 pr-0"></i></a>
+                                    @else
+                                        <i id="llenarFav" class="fas fa-heart fa-3x pt-4  pr-0"></i>
+                                    @endif
+                                    @if (App\Proxima::where(['user_id' => Auth::id(), 'pelicula_id' => $pelicula->id])->first() == null)
+                                            {!! Form::open(['route' => 'proxima.store', 'id' => 'next'.$pelicula->id, 'hidden']) !!}
+                                                <input type="number" name="pelicula_id" value="{{$pelicula->id}}" hidden>
+                                            {!! Form::close() !!}
+                                            <a href="#" onclick="document.getElementById('{{'next'.$pelicula->id}}').submit();"><i class="fas fa-clock fa-3x pl-0"></i></a>
+                                    @else
+                                        <i id="llenarNext" class="fas fa-clock fa-3x pl-0"></i>
+                                    @endif
+                                    @if (App\Comentario::where(['user_id' => Auth::id(), 'pelicula_id' => $pelicula->id])->first() == null)
 
+                                    @else
+                                        <i id="llenarComment" class="fas fa-comment-alt fa-3x pl-0"></i>
+                                    @endif
+                                </div>
                             </td>
                             <td>
                                 <h1 class="rating-num"> {{round($pelicula->puntaje, 1)}} <i style='font-size:24px' class="fas fa-star"></i></h1>

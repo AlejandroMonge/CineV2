@@ -30,6 +30,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('favorita', 'FavoritaController')->middleware("auth");
 
+Route::resource('proxima', 'ProximaController')->middleware("auth");
+
 Route::resource('pelicula', 'PeliculaController');
 
-Route::resource('comentario', 'ComentarioController');
+Route::resource('comentario', 'ComentarioController')->middleware("auth");

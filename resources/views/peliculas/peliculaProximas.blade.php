@@ -4,10 +4,10 @@
     .acciones a{
         color:  #858796;
     }
-    .fa-heart{
-        color: red;
+    .fa-clock{
+        color: rgb(60, 212, 0);
     }
-    .fa-heart:hover{
+    .fa-clock:hover{
         color:  #858796;
     }
     .addDiv{
@@ -39,19 +39,19 @@
                         <th>Nombre</th>
                         <th>Puntuacion</th>
                     </tr>
-                    @foreach ($favoritas as $pelicula)
+                    @foreach ($proximas as $pelicula)
                         <tr>
                             <td> <a href="{{ route('pelicula.show', $pelicula->id)}}"> <img src="{{$pelicula->imagen_url}}" alt="" width="98" height="140"> </a> </td>
                             <td>
                                  <a href="{{ route('pelicula.show', $pelicula->id)}}"> {{ $pelicula->nombre_pelicula }}</a>
                                  <br>
                                  <div class="acciones">
-                                    {!! Form::open(['route' => ['favorita.destroy',$pelicula->id], 'id' => 'form'.$pelicula->id]) !!}
+                                    {!! Form::open(['route' => ['proxima.destroy',$pelicula->id], 'id' => 'form'.$pelicula->id]) !!}
                                         @csrf
                                         @method('DELETE')
                                         <input type="number" name="pelicula_id" value="{{$pelicula->id}}" hidden>
                                     {!! Form::close() !!}
-                                    <a href="#" onclick="document.getElementById('{{'form'.$pelicula->id}}').submit();"><i class="fas fa-heart fa-3x pt-4"></i></a>
+                                    <a href="#" onclick="document.getElementById('{{'form'.$pelicula->id}}').submit();"><i class="fas fa-clock fa-3x pl-4"></i></a>
                                  </div>
 
                             </td>

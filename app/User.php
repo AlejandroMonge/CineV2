@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Pelicula::class,'favoritas');
     }
+
+    public function proximas()
+    {
+        return $this->belongsToMany(Pelicula::class,'proximas');
+    }
 }
