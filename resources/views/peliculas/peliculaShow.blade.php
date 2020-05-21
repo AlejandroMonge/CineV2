@@ -14,12 +14,15 @@
 }
 
 .comentarios {
-    background-color: #ABBCC3;
+
 }
 .fa-pen-square{
     color: rgb(28, 143, 189);
 }
 .fa-minus-circle{
+    color: red;
+}
+.fa-trash{
     color: red;
 }
 .eliminar{
@@ -31,16 +34,31 @@
     outline:none;
 }
 
+.comentario {
+  border: 5px outset #4e130f;
+  text-align: left;
+  height: auto;
+  width: 100%;
+  border-radius: 15px;
+}
+
 </style>
 
 <div class="container">
-    @if(session()->has('Mensaje'))
+    @if(session()->has('bien'))
         <div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true" style="font-size:20px">×</span>
             </button>
-            {{ session()->get('Mensaje') }}
+            {{ session()->get('bien') }}
         </div>
+    @elseif(session()->has('mal'))
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true" style="font-size:20px">×</span>
+        </button>
+        {{ session()->get('mal') }}
+    </div>
     @endif
     <div class="row">
         @if ($admin)
@@ -85,10 +103,60 @@
             <div class="comentarios">
                 @isset($comentarios)
                 @foreach ($comentarios as $comentario)
-                    <h4>{{$comentario->puntaje}}</h4>
-                    <p>{{$comentario->comentario}}</p>
-                    <p>{{$comentario->nombre_user}}</p>
-                    <p> {{$comentario->created_at}} </p>
+                @if ($comentario->user_id == Auth::id())
+                    <form action="{{route('comentario.destroy', $comentario->id)}}" method="POST">
+                            @csrf
+                        @method('DELETE')
+                        <button type="submit" class="eliminar"><i class="fas fa-trash"></i></button>
+                    </form>
+                @endif
+                <div class="comentario">
+                    <span class="review-stars" style="color: #FF9800;">
+                        <!-- ////////////// STAR RATE CHECKER ////////////// -->
+                            @if($comentario->puntaje == 0)
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            @elseif($comentario->puntaje === 1)
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            @elseif($comentario->puntaje === 2)
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            @elseif($comentario->puntaje === 3)
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            @elseif($comentario->puntaje === 4)
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            @elseif($comentario->puntaje >= 5)
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            @endif
+                            <!-- ///////////////////////////////////////////// -->
+                        </span>
+                        <h4>{{$comentario->nombre_user}}</h4>
+                        <p>{{$comentario->comentario}}</p>
+                        <p> {{$comentario->created_at}} </p>
+                </div>
+                <hr size="2px" color="gray" />
                 @endforeach
             @endisset
             </div>
