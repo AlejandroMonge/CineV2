@@ -30,7 +30,7 @@ class PeliculaSeeder extends Seeder
         Pelicula::create(['imagen_url' => 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSPO5lOKd7RPvg5wdNS6ZYMfC392opn2pGBxlX0My_nmXHf1RSI',
         'nombre_pelicula' => 'Mulán', 'anio' => 2020, 'genero' => 'Aventura/Acción', 'duracion' => '2horas',
         'sinopsis' => 'El emperador chino emite un decreto que exige que cada hogar debe reclutar a un varón para luchar con el ejército imperial en la guerra contra los Hunos. Para salvar a su anciano padre de este deber, su única hija Fa Mulan se hace pasar por soldado y toma su lugar. La joven se someterá a un duro entrenamiento hasta hacerse merecedora de la estima y de la confianza del resto de su escuadrón.',
-        'puntaje' => 4.9, 'cantidad_votos' => 150, 'url_trailer' => 'https://www.youtube.com/embed/KK8FHdFluOQ']);
+        'puntaje' => 0, 'cantidad_votos' => 0, 'url_trailer' => 'https://www.youtube.com/embed/KK8FHdFluOQ']);
 
         Pelicula::create(['imagen_url' => 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQdTJl17J5_VdMVx85Krry9e2j2KZKkuuE92ejNVAtHsNGN-3l8',
         'nombre_pelicula' => 'Bad Boys para siempre', 'anio' => 2020, 'genero' => 'Comedia/Acción', 'duracion' => '2h 4m',
